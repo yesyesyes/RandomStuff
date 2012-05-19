@@ -1,12 +1,6 @@
 package com.appspot.yesopodelkinascale
 
-import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
-import org.scalatest.FunSuite
-import org.scalatest.matchers.ShouldMatchers
-import scala.collection.immutable.Queue
-
-object Sorting extends FunSuite with ShouldMatchers {
+object Sorting {
 
   def insertion[A <% Ordered[A]](arr: Array[A]): Array[A] = {
     for (j <- 1 until arr.length) {
@@ -29,6 +23,36 @@ object Sorting extends FunSuite with ShouldMatchers {
         else x :: insert(el, xs)
     }
     (List[A]() /: ls) { (a, b) => insert(b, a) }
+  }
+
+  def funMerge[A <% Ordered[A]](l: List[A], r: List[A]) = {
+    def rec(l: List[A], r: List[A], res: List[A]): List[A] = (l, r) match {
+      case (Nil, Nil) => res reverse
+      case (Nil, y) => (y ++ res) reverse
+      case (x, Nil) => (x ++ res) reverse
+      case (x :: xs, y :: ys) => if (x <= y) rec(xs, y :: ys, x :: res) else rec(x :: xs, ys, y :: res)
+    }
+    rec(l, r, Nil)
+  }
+  
+  def merge[A <% Ordered[A]: ClassManifest](arr: Array[A], p: Int, q: Int, r: Int): Array[A] = {
+    val left = new Array[A](q - p + 1)
+    val right = new Array[A](r - q)
+    Array.copy(arr, p, left, 0, q - p + 1)
+    Array.copy(arr, q + 1, right, 0, r - q)
+    var i, j = 0
+    for(k <- p to r) {
+      if(i >= left.length) arr(k) = right(j)
+      else if(j >= right.length) arr(k) = left(i)
+      else if (left(i) <= right(j)) {
+        arr(k) = left(i)
+        i = i + 1
+      } else {
+        arr(k) = right(j)
+        j = j + 1
+      }
+    }
+    arr
   }
 
 }
