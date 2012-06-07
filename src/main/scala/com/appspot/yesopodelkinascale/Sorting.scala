@@ -27,7 +27,8 @@ object Sorting {
   }
  }
 
-object merge{  
+object merge {
+  
   def funMerge[A <% Ordered[A]](l: List[A], r: List[A]) = {
     def rec(l: List[A], r: List[A], res: List[A]): List[A] = (l, r) match {
       case (Nil, Nil) => res reverse
@@ -65,20 +66,37 @@ object heap {
   def left(i: Int) = 2 * i + 1
   def right(i: Int) = 2 * i + 2
   
-  def maxHeapify[A <% Ordered[A]](arr: Array[A], i: Int) {
+  def maxHeapify[A <% Ordered[A]](arr: Array[A], i: Int, max: Int) {
     val l = left(i)
     val r = right(i)
-    var largest = -666
-    if (l < arr.size && arr(l) > arr(i)) largest = l
+    var largest = -1
+    if (l < max && arr(l) > arr(i)) largest = l
     else largest = i
-    if (r < arr.size && arr(r) > arr(largest)) largest = r
+    if (r < max && arr(r) > arr(largest)) largest = r
     if (largest != i) {
       val tmp = arr(i)
       arr(i) = arr(largest)
       arr(largest) = tmp
-      maxHeapify(arr, largest)
+      maxHeapify(arr, largest, max)
     }
-  } 
+  }
+  
+  def buildMaxHeap[A <% Ordered[A]](arr: Array[A]) {
+    for (i <- (arr.size - 1) / 2 to 0 by -1) maxHeapify(arr, i, arr.size)
+  }
+  
+  def heap[A <% Ordered[A]](arr: Array[A]) {
+    buildMaxHeap(arr)
+    var max = arr.size
+    for (i <- arr.size - 1 to 1 by -1) {
+      val tmp = arr(0)
+      arr(0) = arr(i)
+      arr(i) = tmp
+      max -= 1
+      maxHeapify(arr, 0, max)
+    }
+  }
+  
 }
   
   

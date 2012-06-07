@@ -39,8 +39,20 @@ class SortingTests extends FunSuite with ShouldMatchers {
   
   test("maxHeapify") {
     val arr = Array(16, 4, 10, 14, 7, 9, 3, 2, 8, 1)
-    maxHeapify(arr, 1) 
+    maxHeapify(arr, 1, arr.size) 
     arr should equal(Array(16, 14, 10, 8, 7, 9, 3, 2, 4, 1))
+  }
+  
+  test("buildMaxHeap") {
+    val arr = Array(16, 4, 10, 14, 7, 9, 3, 2, 8, 1)
+    buildMaxHeap(arr)
+    arr should equal(Array(16, 14, 10, 8, 7, 9, 3, 2, 4, 1))
+  }
+
+  test("heap") {
+    val arr = Array(16, 4, 10, 14, 7, 9, 3, 2, 8, 1)
+    heap(arr)
+    arr should equal(arr.sorted)
   }
 
 }
