@@ -55,4 +55,9 @@ class SortingTests extends FunSuite with ShouldMatchers {
     arr should equal(arr.sorted)
   }
 
+  test("funHeap") {
+    val lst = List(16, 4, 10, 14, 7, 9, 3, 2, 8, 1)
+    heapSort(lst) should equal(lst.sorted)
+  }
+
 }

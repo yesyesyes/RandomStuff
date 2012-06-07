@@ -1,4 +1,5 @@
 package com.appspot.yesopodelkinascale
+import scala.annotation.tailrec
 
 object Sorting {
 
@@ -96,6 +97,30 @@ object heap {
       maxHeapify(arr, 0, max)
     }
   }
+  
+  sealed abstract case class Heap[+A] { def rank: Int }
+  case object E extends Heap[Nothing] { def rank = 0 }
+  case class T[+A](rank: Int, x: A, a: Heap[A], b: Heap[A]) extends Heap[A]
+  
+  def mk[A](x: A, a: Heap[A], b: Heap[A]) = {
+    if (a.rank > b.rank) T(b.rank + 1, x, a, b)
+    else T(a.rank + 1, x, b, a)
+  }
+  
+  @tailrec def toList[A <% Ordered[A]](a: Heap[A], res: List[A]): List[A] = a match {
+    case E => res reverse
+    case t: T[A] => toList(merge(t.a, t.b), t.x :: res)
+  } 
+  
+  def merge[A <% Ordered[A]](a: Heap[A], b: Heap[A]): Heap[A] = (a, b) match {
+    case (E, h) => h
+    case (h, E) => h
+    case (h1 @ T(_, x, a1, b1), h2 @ T(_, y, a2, b2)) =>
+      if (x < y) mk(x, a1, merge(b1, h2))
+      else mk(y, a2, merge(b2, h1))
+  }
+  
+  def heapSort[A <% Ordered[A]](xs: List[A]) = toList(xs.foldLeft(E: Heap[A]) { (x, y) => merge(mk(y, E, E), x) }, Nil)
   
 }
   
