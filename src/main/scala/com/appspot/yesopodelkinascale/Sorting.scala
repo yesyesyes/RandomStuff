@@ -62,16 +62,16 @@ object merge{
 object heap {
   
   def parent(i: Int) = i / 2
-  def left(i: Int) = 2 * i
-  def right(i: Int) = 2 * i + 1
+  def left(i: Int) = 2 * i + 1
+  def right(i: Int) = 2 * i + 2
   
   def maxHeapify[A <% Ordered[A]](arr: Array[A], i: Int) {
     val l = left(i)
     val r = right(i)
-    var largest = -1
-    if (l <= arr.size && arr(l) > arr(i)) largest = l
+    var largest = -666
+    if (l < arr.size && arr(l) > arr(i)) largest = l
     else largest = i
-    if (r <= arr.size && arr(r) > arr(largest)) largest = r
+    if (r < arr.size && arr(r) > arr(largest)) largest = r
     if (largest != i) {
       val tmp = arr(i)
       arr(i) = arr(largest)

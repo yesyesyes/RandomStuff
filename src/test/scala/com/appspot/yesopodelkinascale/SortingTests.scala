@@ -11,12 +11,12 @@ class SortingTests extends FunSuite with ShouldMatchers {
   
   import Sorting.insertion._
 
-  test("insertion sort test") {
+  test("insertion") {
     val arr = Array(5, 2, 6, 3, 1)
     insertion(arr) should equal(Array(1, 2, 3, 5, 6))
   }
 
-  test("funInsertion sort test") {
+  test("funInsertion") {
     val ls = List(5, 2, 6, 3, 1)
     funInsertion(ls) should equal(Queue(1, 2, 3, 5, 6))
   }
@@ -24,7 +24,7 @@ class SortingTests extends FunSuite with ShouldMatchers {
   
   import Sorting.merge._
   
-  test("merge test") {
+  test("merge") {
     val arr = Array(7, 1, 4, 6, 2, 5, 10)
     merge(arr, 1, 3, 5) should equal(Array(7, 1, 2, 4, 5, 6, 10))
   }
@@ -36,5 +36,11 @@ class SortingTests extends FunSuite with ShouldMatchers {
   }
   
   import Sorting.heap._
+  
+  test("maxHeapify") {
+    val arr = Array(16, 4, 10, 14, 7, 9, 3, 2, 8, 1)
+    maxHeapify(arr, 1) 
+    arr should equal(Array(16, 14, 10, 8, 7, 9, 3, 2, 4, 1))
+  }
 
 }
