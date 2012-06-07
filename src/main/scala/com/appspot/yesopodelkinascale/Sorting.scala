@@ -2,6 +2,7 @@ package com.appspot.yesopodelkinascale
 
 object Sorting {
 
+ object insertion {
   def insertion[A <% Ordered[A]](arr: Array[A]): Array[A] = {
     for (j <- 1 until arr.length) {
       val key = arr(j)
@@ -24,7 +25,9 @@ object Sorting {
     }
     (List[A]() /: ls) { (a, b) => insert(b, a) }
   }
+ }
 
+object merge{  
   def funMerge[A <% Ordered[A]](l: List[A], r: List[A]) = {
     def rec(l: List[A], r: List[A], res: List[A]): List[A] = (l, r) match {
       case (Nil, Nil) => res reverse
@@ -54,5 +57,31 @@ object Sorting {
     }
     arr
   }
+}
+
+object heap {
+  
+  def parent(i: Int) = i / 2
+  def left(i: Int) = 2 * i
+  def right(i: Int) = 2 * i + 1
+  
+  def maxHeapify[A <% Ordered[A]](arr: Array[A], i: Int) {
+    val l = left(i)
+    val r = right(i)
+    var largest = -1
+    if (l <= arr.size && arr(l) > arr(i)) largest = l
+    else largest = i
+    if (r <= arr.size && arr(r) > arr(largest)) largest = r
+    if (largest != i) {
+      val tmp = arr(i)
+      arr(i) = arr(largest)
+      arr(largest) = tmp
+      maxHeapify(arr, largest)
+    }
+  } 
+}
+  
+  
+  
 
 }
