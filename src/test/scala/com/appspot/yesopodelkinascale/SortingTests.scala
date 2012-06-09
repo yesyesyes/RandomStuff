@@ -5,6 +5,8 @@ import org.scalatest.junit.JUnitRunner
 import org.scalatest.FunSuite
 import org.scalatest.matchers.ShouldMatchers
 import scala.collection.immutable.Queue
+import scalaz._
+import Scalaz._
 
 @RunWith(classOf[JUnitRunner])
 class SortingTests extends FunSuite with ShouldMatchers {
@@ -59,5 +61,26 @@ class SortingTests extends FunSuite with ShouldMatchers {
     val lst = List(16, 4, 10, 14, 7, 9, 3, 2, 8, 1)
     heapSort(lst) should equal(lst.sorted)
   }
+  
+  /* Priority queue tests */
+  test("piramid max") {
+    val lst = List(2, 4, 10, 14, 7, 9, 3, 16, 8, 1)
+    buildPiramid(lst) |> max should equal(16)
+  }
 
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 }

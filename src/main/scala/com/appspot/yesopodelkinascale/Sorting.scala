@@ -108,7 +108,7 @@ object heap {
   }
   
   @tailrec def toList[A <% Ordered[A]](a: Heap[A], res: List[A]): List[A] = a match {
-    case E => res reverse
+    case E => res
     case t: T[A] => toList(merge(t.a, t.b), t.x :: res)
   } 
   
@@ -116,9 +116,16 @@ object heap {
     case (E, h) => h
     case (h, E) => h
     case (h1 @ T(_, x, a1, b1), h2 @ T(_, y, a2, b2)) =>
-      if (x < y) mk(x, a1, merge(b1, h2))
+      if (x >= y) mk(x, a1, merge(b1, h2))
       else mk(y, a2, merge(b2, h1))
   }
+  
+  def buildPiramid[A <% Ordered[A]](ls: List[A]): Heap[A] = ls.foldLeft(E: Heap[A]) { (x, y) => merge(mk(y, E, E), x) }
+  
+  def max[A](h: Heap[A]) = h match {
+    case E => None
+  	case x: T[A] => Some(x.x)
+  } 
   
   def heapSort[A <% Ordered[A]](xs: List[A]) = toList(xs.foldLeft(E: Heap[A]) { (x, y) => merge(mk(y, E, E), x) }, Nil)
   
