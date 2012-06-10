@@ -125,7 +125,12 @@ object heap {
   def max[A](h: Heap[A]) = h match {
     case E => None
   	case x: T[A] => Some(x.x)
-  } 
+  }
+  
+  def extractMax[A <% Ordered[A]](h: Heap[A]): (Option[A], Heap[A]) = h match {
+    case E => (None, E)
+    case t: T[A] => max(t) -> merge(t.a, t.b)
+  }
   
   def heapSort[A <% Ordered[A]](xs: List[A]) = toList(xs.foldLeft(E: Heap[A]) { (x, y) => merge(mk(y, E, E), x) }, Nil)
   
