@@ -133,10 +133,30 @@ object heap {
   }
   
   def heapSort[A <% Ordered[A]](xs: List[A]) = toList(xs.foldLeft(E: Heap[A]) { (x, y) => merge(mk(y, E, E), x) }, Nil)
-  
-}
-  
-  
-  
 
+}
+
+  object qSort {
+    //source: http://stackoverflow.com/a/2962799
+    def qsort[A: Ordering](ls: List[A]) = {
+      import Ordered._
+      def sort(ls: List[A])(parent: List[A]): List[A] = {
+        if (ls.size <= 1) ls ::: parent else {
+          val pivot = ls.head
+          val (less, equal, greater) = ls.foldLeft((List[A](), List[A](), List[A]())) {
+            case ((less, equal, greater), e) => {
+              if (e < pivot)
+                (e :: less, equal, greater)
+              else if (e == pivot)
+                (less, e :: equal, greater)
+              else
+                (less, equal, e :: greater)
+            }
+          }
+          sort(less)(equal ::: sort(greater)(parent))
+        }
+      }
+      sort(ls)(Nil)
+    }
+  }
 }

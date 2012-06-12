@@ -101,6 +101,15 @@ class SortingTests extends FunSpec with GivenWhenThen {
     }
   }
 
+  import Sorting.qSort._  
+  describe("idiomatic Scala Quicksort") {
+    import scala.Stream
+    val lst = List(2, 4, 10, 14, 7, 9, 3, 16, 8, 1)
+    it("should sort") {
+      assert(qsort(lst) == lst.sorted)
+    }
+  }
+
   
   
   
